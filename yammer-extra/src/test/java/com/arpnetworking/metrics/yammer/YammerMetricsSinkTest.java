@@ -286,7 +286,7 @@ public final class YammerMetricsSinkTest {
                 .then(new GaugeCaptureAnswer(gauge));
 
         final List<Quantity> samples = new ArrayList<>();
-        samples.add(TestQuantity.newInstance(3.14, null));
+        samples.add(TestQuantity.newInstance(3.84, null));
         // CHECKSTYLE.OFF: IllegalInstantiation - No Gauva
         final Map<String, List<Quantity>> metrics = new HashMap<>();
         // CHECKSTYLE.ON: IllegalInstantiation
@@ -304,7 +304,7 @@ public final class YammerMetricsSinkTest {
                 Matchers.any(Gauge.class));
         Mockito.verifyNoMoreInteractions(registry);
 
-        Assert.assertEquals(3.14, gauge.get().value(), 0.0001);
+        Assert.assertEquals(3.84, gauge.get().value(), 0.0001);
     }
 
     @SuppressWarnings("unchecked")
@@ -325,7 +325,7 @@ public final class YammerMetricsSinkTest {
                 .then(new GaugeCaptureAnswer(gauge));
 
         final List<Quantity> samples = new ArrayList<>();
-        samples.add(TestQuantity.newInstance(3.14, null));
+        samples.add(TestQuantity.newInstance(3.84, null));
         samples.add(TestQuantity.newInstance(2.07, null));
         // CHECKSTYLE.OFF: IllegalInstantiation - No Gauva
         final Map<String, List<Quantity>> metrics = new HashMap<>();
@@ -365,7 +365,7 @@ public final class YammerMetricsSinkTest {
                 .then(new GaugeCaptureAnswer(gauge));
 
         final List<Quantity> samplesA = new ArrayList<>();
-        samplesA.add(TestQuantity.newInstance(3.14, null));
+        samplesA.add(TestQuantity.newInstance(3.84, null));
         final List<Quantity> samplesB = new ArrayList<>();
         samplesB.add(TestQuantity.newInstance(2.07, null));
         // CHECKSTYLE.OFF: IllegalInstantiation - No Gauva
@@ -386,7 +386,7 @@ public final class YammerMetricsSinkTest {
                 Matchers.eq(metricName),
                 Matchers.any(Gauge.class));
 
-        Assert.assertEquals(3.14, gauge.get().value(), 0.0001);
+        Assert.assertEquals(3.84, gauge.get().value(), 0.0001);
         Mockito.reset(registry);
 
         Mockito.when(
@@ -429,7 +429,7 @@ public final class YammerMetricsSinkTest {
                 .then(new DifferentGaugeAnswer());
 
         final List<Quantity> samples = new ArrayList<>();
-        samples.add(TestQuantity.newInstance(3.14, null));
+        samples.add(TestQuantity.newInstance(3.84, null));
         // CHECKSTYLE.OFF: IllegalInstantiation - No Gauva
         final Map<String, List<Quantity>> metrics = new HashMap<>();
         // CHECKSTYLE.ON: IllegalInstantiation
@@ -448,7 +448,7 @@ public final class YammerMetricsSinkTest {
         Mockito.verifyNoMoreInteractions(registry);
 
         // NOTE: This is not a great test since it is testing for the fact that
-        // no action was taken. If action were taken it would result in an 
+        // no action was taken. If action were taken it would result in an
         // exception.
     }
 
@@ -468,7 +468,7 @@ public final class YammerMetricsSinkTest {
         @Override
         // CHECKSTYLE.OFF: IllegalThrows - Declared in interface.
         public Gauge<Double> answer(final InvocationOnMock invocation) throws Throwable {
-            // CHECKSTYLE.ON: IllegalThrows 
+            // CHECKSTYLE.ON: IllegalThrows
             return _gauge.get();
         }
 
@@ -479,7 +479,7 @@ public final class YammerMetricsSinkTest {
         @Override
         // CHECKSTYLE.OFF: IllegalThrows - Declared in interface.
         public Gauge<Double> answer(final InvocationOnMock invocation) throws Throwable {
-            // CHECKSTYLE.ON: IllegalThrows 
+            // CHECKSTYLE.ON: IllegalThrows
             return new DifferentGauge();
         }
     }
@@ -494,7 +494,7 @@ public final class YammerMetricsSinkTest {
         @Override
         // CHECKSTYLE.OFF: IllegalThrows - Declared in interface.
         public Gauge<Double> answer(final InvocationOnMock invocation) throws Throwable {
-            // CHECKSTYLE.ON: IllegalThrows 
+            // CHECKSTYLE.ON: IllegalThrows
             _gauge.set((Gauge<Double>) invocation.getArguments()[2]);
             return _gauge.get();
         }
