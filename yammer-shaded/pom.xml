@@ -21,7 +21,7 @@
 
   <parent>
     <groupId>com.arpnetworking.metrics.extras</groupId>
-    <artifactId>metrics-yammer-extra</artifactId>
+    <artifactId>yammer-extra-parent</artifactId>
     <version>0.3.6-SNAPSHOT</version>
   </parent>
 
