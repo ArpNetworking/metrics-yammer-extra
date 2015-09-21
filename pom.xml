@@ -25,14 +25,14 @@
   <name>Metrics Client Yammer Extras</name>
   <groupId>com.arpnetworking.metrics.extras</groupId>
   <artifactId>yammer-extra-parent</artifactId>
-  <version>0.3.6</version>
+  <version>0.3.7-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <scm>
     <connection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</connection>
     <developerConnection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</developerConnection>
     <url>https://github.com/arpnetworking/metrics-yammer-extra</url>
-    <tag>yammer-extra-parent-0.3.6</tag>
+    <tag>HEAD</tag>
   </scm>
   <licenses>
     <license>
