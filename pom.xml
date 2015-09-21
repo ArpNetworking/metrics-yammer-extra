@@ -29,8 +29,8 @@
   <packaging>pom</packaging>
 
   <scm>
-    <connection>scm:git@github.com:ArpNetworking/metrics-yammer-extra.git</connection>
-    <developerConnection>scm:git@github.com:ArpNetworking/metrics-yammer-extra.git</developerConnection>
+    <connection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</connection>
+    <developerConnection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</developerConnection>
     <url>https://github.com/arpnetworking/metrics-yammer-extra</url>
     <tag>HEAD</tag>
   </scm>
