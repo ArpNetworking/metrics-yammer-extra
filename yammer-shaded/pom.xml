@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2015 Groupon.com
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.arpnetworking.metrics.extras</groupId>
+    <artifactId>metrics-yammer-extra</artifactId>
+    <version>0.3.6-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>yammer-shaded</artifactId>
+  <dependencies>
+    <dependency>
+      <groupId>com.arpnetworking.metrics.extras</groupId>
+      <artifactId>yammer-extra</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>${maven.shade.plugin.version}</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <minimizeJar>false</minimizeJar>
+          <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+          <artifactSet>
+            <includes>
+              <include>com.yammer.metrics</include>
+              <include>com.arpnetworking.metrics.extras:yammer-extra</include>
+            </includes>
+          </artifactSet>
+          <filters>
+            <filter>
+              <artifact>com.yammer.metrics:metrics-core</artifact>
+              <includes>
+                <include>com/yammer/metrics/core/Counter*.class</include>
+                <include>com/yammer/metrics/core/Histogram*.class</include>
+                <include>com/yammer/metrics/core/Meter.class</include>
+                <include>com/yammer/metrics/core/Meter$*.class</include>
+                <include>com/yammer/metrics/core/MetricsRegistry.class</include>
+                <include>com/yammer/metrics/core/Timer.class</include>
+                <include>com/yammer/metrics/core/Timer$*.class</include>
+                <include>com/yammer/metrics/core/TimerContext.class</include>
+                <include>com/yammer/metrics/core/ThreadPools*.class</include>
+              </includes>
+            </filter>
+          </filters>
+          <relocations>
+            <relocation>
+              <pattern>com.yammer.metrics.core</pattern>
+              <shadedPattern>com.arpnetworking.metrics.yammer.shaded</shadedPattern>
+              <includes>
+                <include>com.yammer.metrics.core.Counter*</include>
+                <include>com.yammer.metrics.core.Histogram*</include>
+                <include>com.yammer.metrics.core.Meter</include>
+                <include>com.yammer.metrics.core.Meter*</include>
+                <include>com.yammer.metrics.core.MetricsRegistry</include>
+                <include>com.yammer.metrics.core.Timer</include>
+                <include>com.yammer.metrics.core.Timer$*</include>
+                <include>com.yammer.metrics.core.TimerContext</include>
+                <include>com.yammer.metrics.core.ThreadPools*</include>
+                <include>com.yammer.metrics.core.CounterIntercept*</include>
+                <include>com.yammer.metrics.core.HistogramIntercept*</include>
+                <include>com.yammer.metrics.core.MeterIntercept*</include>
+                <include>com.yammer.metrics.core.TimerIntercept*</include>
+                <include>com.yammer.metrics.core.TimerContextIntercept*</include>
+              </includes>
+              <excludes>
+                <exclude>com.yammer.metrics.core.Metered</exclude>
+              </excludes>
+            </relocation>
+            <relocation>
+              <pattern>com.arpnetworking.metrics.yammer</pattern>
+              <shadedPattern>com.yammer.metrics.core</shadedPattern>
+              <includes>
+                <include>com.arpnetworking.metrics.yammer.Counter</include>
+                <include>com.arpnetworking.metrics.yammer.Histogram</include>
+                <include>com.arpnetworking.metrics.yammer.Meter</include>
+                <include>com.arpnetworking.metrics.yammer.MetricsRegistry</include>
+                <include>com.arpnetworking.metrics.yammer.Timer</include>
+                <include>com.arpnetworking.metrics.yammer.TimerContext</include>
+              </includes>
+            </relocation>
+          </relocations>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

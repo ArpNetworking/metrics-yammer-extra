@@ -86,6 +86,53 @@ final MetricsFactory metricsFactory = new MetricsFactory.Builder()
 
 The Yammer MetricsRegistry on YammerMetricsSink.Builder is optional and defaults to Metrics.defaultRegistry() if not set (or set to null).
 
+### Publishing via Yammer
+
+This extra package contains classes that can be used to supplement Yammer output.  The first way this can be done is to use the yammer-extra package and record all 
+metrics against a MetricsRgistry in the com.arpnetworking.metrics.yammer package.  This will allow existing code written against the Yammer metrics interfaces to work 
+ArpNetworking metrics, with the caveat that the use of static methods to create metrics is not supported.  This is the preferred method of using this library.
+
+```java
+final MetricsRegistry registry = new com.arpnetworking.metrics.yammer.MetricsFactory();
+Counter counter = registry.newCounter("foo");
+counter.inc();
+```
+
+The other way to use this library is as a drop-in replacement.  Through the use of shading we have created the yammer-replace library that serves as a full 
+replacement for Yammer metrics.  This is recommended for times when it is not possible to modify existing code that uses Yammer metrics.  To use this method,
+remove the metrics-core.jar from the classpath of the target application and add yammer-replace.jar in its place.  All use of Yammer metrics will instead be 
+sent to Arpnetworking metrics (including all static references).
+
+
+#### Differences
+
+Yammer metrics provides some interfaces that ArpNetworking metrics does not.  For instance, there is no Meter in ArpNetworking metrics, 
+and counters act differently in Yammer than here.  This section will detail the differences.
+
+##### Counter
+
+Both Yammer and ArpNetworking metrics contain counters that can be incremented by 1 or any arbitrary number.  The difference is in 
+ArpNetworking metrics' separation of units of work and tracking individual samples.  This impedance mismatch is solved by storing each 
+call to Yammer's counter inc as a separate sample in ArpNetworking metrics.  This means that loops where inc() is called multiple times 
+will translate to multiple samples of '1'.  Normally this will not be a problem and the expected value of the Yammer metric will be in 
+the 'sum' statistic's value.
+
+##### Timer
+
+Timers in Yammer and ArpNetworking metrics are very similar.  Their use is functionally equivalent.  The only difference is in the 
+reporting of values.  Since ArpNetworking records individual samples, you will have access to statistically correct percentiles, min, max
+and counts.
+ 
+##### Meter
+
+Meters exist in Yammer to record rates.  ArpNetworking metrics does not contain meters.  All meters are converted into counters.  
+Counters in ArpNetworking metrics allow for the computation of the rates that Yammer metrics produces due to the retention of samples.
+
+##### Histograms
+
+Histograms exist in Yammer to record percentiles.  ArpNetworking metrics retains samples and uses histograms to store the samples.  As a 
+result, histograms are converted to counters and provide the same statistics as Yammer histograms provide.
+
 License
 -------
 

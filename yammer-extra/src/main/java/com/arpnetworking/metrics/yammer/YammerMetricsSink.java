@@ -32,17 +32,17 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Implementation of <code>Sink</code> that records metrics to Yammer's 
+ * Implementation of <code>Sink</code> that records metrics to Yammer's
  * <code>MetricsRegistry</code>. Yammer does not capture all the samples for
  * a counters or gauges; thus when converting from TSD counter and gauge samples
  * they are collapsed into a single measurement. For counters this is the sum of
  * the samples; as if a single count were taken during the unit of work. For
  * gauges this is the last sample taken. Timers record all their samples to
  * Yammer.
- * 
+ *
  * WARNING: Yammer has a single namespace of metrics while TSD has separate
  * namespaces for timers, counters and gauges. Therefore, you must ensure that
- * all your metric names are unique. 
+ * all your metric names are unique.
  *
  * @author Brandon Arp (barp at groupon dot com)
  * @author Ville Koskela (vkoskela at groupon dot com)
@@ -109,7 +109,7 @@ public class YammerMetricsSink implements Sink {
 
     /**
      * Protected constructor.
-     * 
+     *
      * @param builder Instance of <code>Builder</code>.
      */
     protected YammerMetricsSink(final Builder builder) {
@@ -122,7 +122,7 @@ public class YammerMetricsSink implements Sink {
 
     private static final class TsdGauge extends Gauge<Double> {
 
-        public TsdGauge(final double value) {
+        TsdGauge(final double value) {
             _value = value;
         }
 
@@ -140,7 +140,7 @@ public class YammerMetricsSink implements Sink {
 
     /**
      * Builder for <code>YammerMetricsSink</code>.
-     * 
+     *
      * This class is thread safe.
      *
      * @author Ville Koskela (vkoskela at groupon dot com)
@@ -149,7 +149,7 @@ public class YammerMetricsSink implements Sink {
 
         /**
          * Create an instance of <code>Sink</code>.
-         * 
+         *
          * @return Instance of <code>Sink</code>.
          */
         public YammerMetricsSink build() {
@@ -163,7 +163,7 @@ public class YammerMetricsSink implements Sink {
          * Set the Yammer <code>MetricsRegistry</code>. Optional. Default value
          * is to use the <code>defaultMetricsRegistry</code> from
          * <code>Metrics</code>.
-         * 
+         *
          * @param value The value for the Yammer <code>MetricsRegistry</code>.
          * @return This <code>Builder</code> instance.
          */
