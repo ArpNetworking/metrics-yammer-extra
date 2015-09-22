@@ -35,6 +35,15 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <includeDependencySources>true</includeDependencySources>
+          <dependencySourceIncludes>
+            <dependencySourceInclude>com.arpnetworking.metrics.extras:*</dependencySourceInclude>
+          </dependencySourceIncludes>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
         <version>${maven.shade.plugin.version}</version>
@@ -47,6 +56,7 @@
           </execution>
         </executions>
         <configuration>
+          <createSourcesJar>true</createSourcesJar>
           <minimizeJar>false</minimizeJar>
           <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
           <artifactSet>
