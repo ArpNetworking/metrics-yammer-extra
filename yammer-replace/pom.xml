@@ -50,6 +50,7 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <includeDependencySources>true</includeDependencySources>
@@ -86,7 +87,6 @@
         <configuration>
           <createSourcesJar>true</createSourcesJar>
           <minimizeJar>false</minimizeJar>
-          <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
           <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
           <artifactSet>
             <excludes />
