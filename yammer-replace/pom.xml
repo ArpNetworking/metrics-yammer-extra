@@ -53,9 +53,6 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <includeDependencySources>true</includeDependencySources>
-          <dependencySourceIncludes>
-            <dependencySourceInclude>com.arpnetworking.metrics.extras:*</dependencySourceInclude>
-          </dependencySourceIncludes>
           <dependencySourceExcludes>
             <dependencySourceExclude>com.yammer.metrics:*</dependencySourceExclude>
             <dependencySourceExclude>com.arpnetworking.build:*</dependencySourceExclude>
@@ -89,6 +86,7 @@
         <configuration>
           <createSourcesJar>true</createSourcesJar>
           <minimizeJar>false</minimizeJar>
+          <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
           <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
           <artifactSet>
             <excludes />
