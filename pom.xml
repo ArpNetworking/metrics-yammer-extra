@@ -21,19 +21,15 @@
     <version>1.0.2</version>
     <relativePath />
   </parent>
+
   <modelVersion>4.0.0</modelVersion>
-  <name>Metrics Client Yammer Extras</name>
   <groupId>com.arpnetworking.metrics.extras</groupId>
   <artifactId>yammer-extra-parent</artifactId>
-  <version>0.3.9-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <name>Metrics Client Yammer Extras</name>
+  <description />
+  <version>0.3.9-SNAPSHOT</version>
 
-  <scm>
-    <connection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</connection>
-    <developerConnection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</developerConnection>
-    <url>https://github.com/arpnetworking/metrics-yammer-extra</url>
-    <tag>HEAD</tag>
-  </scm>
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
@@ -42,6 +38,7 @@
       <comments>A business-friendly OSS license</comments>
     </license>
   </licenses>
+
   <developers>
     <developer>
       <id>barp</id>
@@ -65,6 +62,13 @@
     </developer>
   </developers>
 
+  <scm>
+    <connection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</connection>
+    <developerConnection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</developerConnection>
+    <url>https://github.com/arpnetworking/metrics-yammer-extra</url>
+    <tag>HEAD</tag>
+  </scm>
+
   <modules>
     <module>yammer-extra</module>
     <module>yammer-replace</module>
@@ -72,12 +76,6 @@
   </modules>
 
   <properties>
-    <main.basedir>${project.basedir}</main.basedir>
-    <maven.test.skip>false</maven.test.skip>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <findbugs.annotations.version>3.0.0</findbugs.annotations.version>
-
     <!-- IMPORTANT: Any changes to dependencies, including versions, require
       validation that the shading rules correctly resolve the transitive closure
       of all non-test packages. You can validate that the transitive closure of
@@ -97,6 +95,7 @@
     -->
 
     <!--Dependency versions-->
+    <findbugs.annotations.version>3.0.0</findbugs.annotations.version>
     <hamcrest.version>2.0.0.0</hamcrest.version>
     <jsr305.version>3.0.0</jsr305.version>
     <junit.version>4.12</junit.version>
@@ -109,62 +108,15 @@
     <maven.shade.plugin.version>2.4.1</maven.shade.plugin.version>
   </properties>
   <build>
-    <finalName>${project.artifactId}</finalName>
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>findbugs-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-source-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>versions-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-      </plugin>
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>${maven.shade.plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
   <dependencyManagement>
     <!-- Logging -->
