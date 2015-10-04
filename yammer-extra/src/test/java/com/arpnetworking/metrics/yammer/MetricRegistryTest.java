@@ -42,7 +42,7 @@ import java.util.function.Consumer;
  */
 public class MetricRegistryTest {
     @Before
-    public void setup() {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
