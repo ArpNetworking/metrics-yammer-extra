@@ -1,6 +1,19 @@
 Yammer Extra
 ============
 
+<a href="https://raw.githubusercontent.com/ArpNetworking/metrics-yammer-extra/master/LICENSE">
+    <img src="https://img.shields.io/hexpm/l/plug.svg"
+         alt="License: Apache 2">
+</a>
+<a href="https://travis-ci.org/ArpNetworking/metrics-yammer-extra/">
+    <img src="https://travis-ci.org/ArpNetworking/metrics-yammer-extra.png"
+         alt="Travis Build">
+</a>
+<a href="http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.arpnetworking.metrics.extras%22%20a%3A%22yammer-extra%22">
+    <img src="https://img.shields.io/maven-central/v/com.arpnetworking.metrics.extras/yammer-extra.svg"
+         alt="Maven Artifact">
+</a>
+
 Extension for clients migrating from Yammer that allows migration to our client library while retaining publication to Yammer.
 
 
