@@ -17,26 +17,12 @@ Yammer Extra
 Extension for clients migrating from Yammer that allows migration to our client library while retaining publication to Yammer.
 
 
-Setup
------
-
-### Building
-
-Prerequisites:
-* [JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-* [Maven 3.2.5+](http://maven.apache.org/download.cgi)
-
-Building:
-    extras/yammer-extra> mvn package
-
+Instrumenting Your Yammer Application
+-------------------------------------
 
 ### Add Dependency
 
-Determine the latest version of the Yammer extra in [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.arpnetworking.metrics.extras%22%20a%3A%22yammer-extra%22).  Alternatively, install the current version locally:
-
-    extras/yammer-extra> mvn install
-
-Using the local version is intended only for testing or development.
+Determine the latest version of the Yammer extra in [Maven Central](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.arpnetworking.metrics.extras%22%20a%3A%22yammer-extra%22).
 
 #### Maven
 
@@ -116,7 +102,6 @@ replacement for Yammer metrics.  This is recommended for times when it is not po
 remove the metrics-core.jar from the classpath of the target application and add yammer-replace.jar in its place.  All use of Yammer metrics will instead be 
 sent to Arpnetworking metrics (including all static references).
 
-
 #### Differences
 
 Yammer metrics provides some interfaces that ArpNetworking metrics does not.  For instance, there is no Meter in ArpNetworking metrics, 
@@ -145,6 +130,29 @@ Counters in ArpNetworking metrics allow for the computation of the rates that Ya
 
 Histograms exist in Yammer to record percentiles.  ArpNetworking metrics retains samples and uses histograms to store the samples.  As a 
 result, histograms are converted to counters and provide the same statistics as Yammer histograms provide.
+
+Building
+--------
+
+Prerequisites:
+* [JDK8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* [Maven 3.2.5+](http://maven.apache.org/download.cgi)
+
+Building:
+
+    metrics-yammer-extra> ./mvnw package
+
+To use the local version you must first install it locally:
+
+    metrics-yammer-extra> ./mvnw install
+
+You can determine the version of the local build from the pom file.  Using the local version is intended only for testing or development.
+
+You may also need to add the local repository to your build in order to pick-up the local version:
+
+* Maven - Included by default.
+* Gradle - Add *mavenLocal()* to *build.gradle* in the *repositories* block.
+* SBT - Add *resolvers += Resolver.mavenLocal* into *project/plugins.sbt*.
 
 License
 -------
