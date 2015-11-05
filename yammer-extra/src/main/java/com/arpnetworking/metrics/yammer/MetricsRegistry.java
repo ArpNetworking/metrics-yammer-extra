@@ -17,14 +17,15 @@ package com.arpnetworking.metrics.yammer;
 
 import com.arpnetworking.metrics.Metrics;
 import com.arpnetworking.metrics.MetricsFactory;
+import com.arpnetworking.metrics.impl.TsdLogSink;
 import com.arpnetworking.metrics.impl.TsdMetricsFactory;
-import com.arpnetworking.metrics.impl.TsdQueryLogSink;
 import com.yammer.metrics.core.Clock;
 import com.yammer.metrics.core.Gauge;
 import com.yammer.metrics.core.Metric;
 import com.yammer.metrics.core.MetricName;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -50,11 +51,18 @@ public class MetricsRegistry extends com.yammer.metrics.core.MetricsRegistry {
     /**
      * Public constructor.
      */
+    @SuppressFBWarnings("DMI_HARDCODED_ABSOLUTE_FILENAME")
     public MetricsRegistry() {
         // TODO(barp): Read the settings from a config file [#2]
         this(
                 new TsdMetricsFactory.Builder()
-                        .setSinks(Collections.singletonList(new TsdQueryLogSink.Builder().setPath("/tmp").build()))
+                        .setClusterName(System.getProperty("METRICS_YAMMER_EXTRA_CLUSTER", "YammerCluster"))
+                        .setServiceName(System.getProperty("METRICS_YAMMER_EXTRA_SERVICE", "YammerService"))
+                        .setSinks(Collections.singletonList(
+                                new TsdLogSink.Builder()
+                                        .setDirectory(
+                                                new File(System.getProperty("METRICS_YAMMER_EXTRA_DIRECTORY", "/tmp")))
+                                        .build()))
                         .build(),
                 Clock.defaultClock());
     }
@@ -91,7 +99,7 @@ public class MetricsRegistry extends com.yammer.metrics.core.MetricsRegistry {
         // TODO(barp): Read the settings from a config file [#2]
         this(
                 new TsdMetricsFactory.Builder()
-                        .setSinks(Collections.singletonList(new TsdQueryLogSink.Builder().build()))
+                        .setSinks(Collections.singletonList(new TsdLogSink.Builder().build()))
                         .build(),
                 clock);
     }
