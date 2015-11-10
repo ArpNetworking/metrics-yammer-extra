@@ -17,7 +17,8 @@ package com.arpnetworking.metrics.yammer;
 
 import com.arpnetworking.metrics.Quantity;
 import com.arpnetworking.metrics.Sink;
-import com.arpnetworking.metrics.Unit;
+import com.arpnetworking.metrics.Units;
+import com.arpnetworking.metrics.impl.TsdEvent;
 import com.arpnetworking.metrics.yammer.test.TestQuantity;
 import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.Counter;
@@ -79,10 +80,12 @@ public final class YammerMetricsSinkTest {
                 .build();
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap());
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setGaugeSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verifyZeroInteractions(registry);
     }
@@ -99,17 +102,19 @@ public final class YammerMetricsSinkTest {
         Mockito.when(registry.newTimer(YammerMetricsSink.class, metricName)).thenReturn(timer);
 
         final List<Quantity> samples = new ArrayList<>();
-        samples.add(TestQuantity.newInstance(1L, Unit.SECOND));
+        samples.add(TestQuantity.newInstance(1L, Units.SECOND));
         // CHECKSTYLE.OFF: IllegalInstantiation - No Gauva
         final Map<String, List<Quantity>> metrics = new HashMap<>();
         // CHECKSTYLE.ON: IllegalInstantiation
         metrics.put(metricName, samples);
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                metrics,
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap());
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(metrics)
+                        .setGaugeSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verify(registry).newTimer(YammerMetricsSink.class, metricName);
         Mockito.verifyNoMoreInteractions(registry);
@@ -130,18 +135,20 @@ public final class YammerMetricsSinkTest {
         Mockito.when(registry.newTimer(YammerMetricsSink.class, metricName)).thenReturn(timer);
 
         final List<Quantity> samples = new ArrayList<>();
-        samples.add(TestQuantity.newInstance(1L, Unit.SECOND));
-        samples.add(TestQuantity.newInstance(2L, Unit.MILLISECOND));
+        samples.add(TestQuantity.newInstance(1L, Units.SECOND));
+        samples.add(TestQuantity.newInstance(2L, Units.MILLISECOND));
         // CHECKSTYLE.OFF: IllegalInstantiation - No Gauva
         final Map<String, List<Quantity>> metrics = new HashMap<>();
         // CHECKSTYLE.ON: IllegalInstantiation
         metrics.put(metricName, samples);
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                metrics,
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap());
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(metrics)
+                        .setGaugeSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verify(registry).newTimer(YammerMetricsSink.class, metricName);
         Mockito.verifyNoMoreInteractions(registry);
@@ -170,10 +177,12 @@ public final class YammerMetricsSinkTest {
         metrics.put(metricName, samples);
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                metrics,
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap());
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(metrics)
+                        .setGaugeSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verify(registry).newTimer(YammerMetricsSink.class, metricName);
         Mockito.verifyNoMoreInteractions(registry);
@@ -201,10 +210,12 @@ public final class YammerMetricsSinkTest {
         metrics.put(metricName, samples);
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                metrics,
-                Collections.<String, List<Quantity>>emptyMap());
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setGaugeSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setCounterSamples(metrics)
+                        .build());
 
         Mockito.verify(registry).newCounter(YammerMetricsSink.class, metricName);
         Mockito.verifyNoMoreInteractions(registry);
@@ -233,10 +244,12 @@ public final class YammerMetricsSinkTest {
         metrics.put(metricName, samples);
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                metrics,
-                Collections.<String, List<Quantity>>emptyMap());
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setGaugeSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setCounterSamples(metrics)
+                        .build());
 
         Mockito.verify(registry).newCounter(YammerMetricsSink.class, metricName);
         Mockito.verifyNoMoreInteractions(registry);
@@ -260,10 +273,12 @@ public final class YammerMetricsSinkTest {
         metrics.put(metricName, Collections.<Quantity>emptyList());
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                metrics);
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setGaugeSamples(metrics)
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verifyNoMoreInteractions(registry);
     }
@@ -293,10 +308,12 @@ public final class YammerMetricsSinkTest {
         metrics.put(metricName, samples);
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                metrics);
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setGaugeSamples(metrics)
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verify(registry).newGauge(
                 Matchers.eq(YammerMetricsSink.class),
@@ -333,10 +350,12 @@ public final class YammerMetricsSinkTest {
         metrics.put(metricName, samples);
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                metrics);
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setGaugeSamples(metrics)
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verify(registry).newGauge(
                 Matchers.eq(YammerMetricsSink.class),
@@ -376,10 +395,12 @@ public final class YammerMetricsSinkTest {
         metricsB.put(metricName, samplesB);
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                metricsA);
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setGaugeSamples(metricsA)
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verify(registry).newGauge(
                 Matchers.eq(YammerMetricsSink.class),
@@ -397,10 +418,12 @@ public final class YammerMetricsSinkTest {
                 .then(new ReturnGaugeAnswer(gauge));
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                metricsB);
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setGaugeSamples(metricsB)
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verify(registry).newGauge(
                 Matchers.eq(YammerMetricsSink.class),
@@ -436,10 +459,12 @@ public final class YammerMetricsSinkTest {
         metrics.put(metricName, samples);
 
         sink.record(
-                Collections.<String, String>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                Collections.<String, List<Quantity>>emptyMap(),
-                metrics);
+                new TsdEvent.Builder()
+                        .setAnnotations(Collections.<String, String>emptyMap())
+                        .setTimerSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .setGaugeSamples(metrics)
+                        .setCounterSamples(Collections.<String, List<Quantity>>emptyMap())
+                        .build());
 
         Mockito.verify(registry).newGauge(
                 Matchers.eq(YammerMetricsSink.class),
@@ -450,6 +475,18 @@ public final class YammerMetricsSinkTest {
         // NOTE: This is not a great test since it is testing for the fact that
         // no action was taken. If action were taken it would result in an
         // exception.
+    }
+
+    @Test
+    public void testToTimeUnit() {
+        Assert.assertNull(YammerMetricsSink.toTimeUnit(null));
+        Assert.assertEquals(TimeUnit.DAYS, YammerMetricsSink.toTimeUnit(Units.DAY));
+        Assert.assertEquals(TimeUnit.HOURS, YammerMetricsSink.toTimeUnit(Units.HOUR));
+        Assert.assertEquals(TimeUnit.MICROSECONDS, YammerMetricsSink.toTimeUnit(Units.MICROSECOND));
+        Assert.assertEquals(TimeUnit.MILLISECONDS, YammerMetricsSink.toTimeUnit(Units.MILLISECOND));
+        Assert.assertEquals(TimeUnit.MINUTES, YammerMetricsSink.toTimeUnit(Units.MINUTE));
+        Assert.assertEquals(TimeUnit.NANOSECONDS, YammerMetricsSink.toTimeUnit(Units.NANOSECOND));
+        Assert.assertEquals(TimeUnit.SECONDS, YammerMetricsSink.toTimeUnit(Units.SECOND));
     }
 
     private static final class DifferentGauge extends Gauge<Double> {

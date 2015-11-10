@@ -46,7 +46,7 @@ public class SafeRefLockTest {
                 obj -> {
                     Mockito.verify(readLock).lock();
                     Assert.assertSame(_object, obj);
-                    final Lock readLockCall = Mockito.verify(_lock).readLock();
+                    Mockito.verify(_lock).readLock();
                     Mockito.verifyNoMoreInteractions(_lock);
                 });
 
@@ -63,7 +63,7 @@ public class SafeRefLockTest {
                 obj -> {
                     Mockito.verify(writeLock).lock();
                     Assert.assertSame(_object, obj);
-                    final Lock writeLockCall = Mockito.verify(_lock).writeLock();
+                    Mockito.verify(_lock).writeLock();
                     Mockito.verifyNoMoreInteractions(_lock);
                 });
 

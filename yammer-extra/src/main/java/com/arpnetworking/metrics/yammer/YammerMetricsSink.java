@@ -15,9 +15,11 @@
  */
 package com.arpnetworking.metrics.yammer;
 
+import com.arpnetworking.metrics.Event;
 import com.arpnetworking.metrics.Quantity;
 import com.arpnetworking.metrics.Sink;
 import com.arpnetworking.metrics.Unit;
+import com.arpnetworking.metrics.Units;
 import com.yammer.metrics.Metrics;
 import com.yammer.metrics.core.Counter;
 import com.yammer.metrics.core.Gauge;
@@ -27,6 +29,7 @@ import com.yammer.metrics.core.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -53,17 +56,12 @@ public class YammerMetricsSink implements Sink {
      * {@inheritDoc}
      */
     @Override
-    public void record(
-            final Map<String, String> annotations,
-            final Map<String, List<Quantity>> timerSamples,
-            final Map<String, List<Quantity>> counterSamples,
-            final Map<String, List<Quantity>> gaugeSamples) {
-
+    public void record(final Event event) {
         // Publish timers
-        for (final Map.Entry<String, List<Quantity>> entry : timerSamples.entrySet()) {
+        for (final Map.Entry<String, List<Quantity>> entry : event.getTimerSamples().entrySet()) {
             final Timer timer = _metricsRegistry.newTimer(getClass(), entry.getKey());
             for (final Quantity sample : entry.getValue()) {
-                final TimeUnit timeUnit = sample.getUnit() == null ? TimeUnit.MILLISECONDS : Unit.toTimeUnit(sample.getUnit());
+                final TimeUnit timeUnit = sample.getUnit() == null ? TimeUnit.MILLISECONDS : toTimeUnit(sample.getUnit());
                 timer.update(
                         sample.getValue().longValue(),
                         timeUnit);
@@ -71,7 +69,7 @@ public class YammerMetricsSink implements Sink {
         }
 
         // Publish counters
-        for (final Map.Entry<String, List<Quantity>> entry : counterSamples.entrySet()) {
+        for (final Map.Entry<String, List<Quantity>> entry : event.getCounterSamples().entrySet()) {
             final Counter counter = _metricsRegistry.newCounter(YammerMetricsSink.class, entry.getKey());
             for (final Quantity sample : entry.getValue()) {
                 counter.inc(sample.getValue().longValue());
@@ -79,7 +77,7 @@ public class YammerMetricsSink implements Sink {
         }
 
         // Publish gauges
-        for (final Map.Entry<String, List<Quantity>> entry : gaugeSamples.entrySet()) {
+        for (final Map.Entry<String, List<Quantity>> entry : event.getGaugeSamples().entrySet()) {
             if (!entry.getValue().isEmpty()) {
                 final double value = entry.getValue().get(entry.getValue().size() - 1).getValue().doubleValue();
                 final Gauge<Double> newGauge = new TsdGauge(value);
@@ -116,9 +114,30 @@ public class YammerMetricsSink implements Sink {
         _metricsRegistry = builder._metricsRegistry;
     }
 
+    /* package private */ static TimeUnit toTimeUnit(final Unit unit) {
+        if (unit == null) {
+            return null;
+        }
+        return TIME_UNIT_MAP.get(unit);
+    }
+
     private final MetricsRegistry _metricsRegistry;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(YammerMetricsSink.class);
+
+    // CHECKSTYLE.OFF: IllegalInstantiation - No Guava dependency here.
+    private static final Map<Unit, TimeUnit> TIME_UNIT_MAP = new HashMap<>();
+    // CHECKSTYLE.ON: IllegalInstantiation
+
+    static {
+        TIME_UNIT_MAP.put(Units.DAY, TimeUnit.DAYS);
+        TIME_UNIT_MAP.put(Units.HOUR, TimeUnit.HOURS);
+        TIME_UNIT_MAP.put(Units.MINUTE, TimeUnit.MINUTES);
+        TIME_UNIT_MAP.put(Units.SECOND, TimeUnit.SECONDS);
+        TIME_UNIT_MAP.put(Units.MILLISECOND, TimeUnit.MILLISECONDS);
+        TIME_UNIT_MAP.put(Units.MICROSECOND, TimeUnit.MICROSECONDS);
+        TIME_UNIT_MAP.put(Units.NANOSECOND, TimeUnit.NANOSECONDS);
+    }
 
     private static final class TsdGauge extends Gauge<Double> {
 
