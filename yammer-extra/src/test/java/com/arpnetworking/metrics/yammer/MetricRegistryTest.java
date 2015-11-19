@@ -60,10 +60,28 @@ public class MetricRegistryTest {
     }
 
     @Test
+    public void multipleCounter() {
+        final MetricsRegistry metricRegistry = new MetricsRegistry();
+        final com.yammer.metrics.core.Counter counter = metricRegistry.newCounter(name("foo"));
+        Assert.assertThat(counter, CoreMatchers.instanceOf(com.arpnetworking.metrics.yammer.Counter.class));
+        final com.yammer.metrics.core.Counter counter2 = metricRegistry.newCounter(name("foo"));
+        Assert.assertThat(counter2, CoreMatchers.instanceOf(com.arpnetworking.metrics.yammer.Counter.class));
+    }
+
+    @Test
     public void timer() {
         final MetricsRegistry metricRegistry = new MetricsRegistry();
         final com.yammer.metrics.core.Timer timer = metricRegistry.newTimer(name("foo"), TimeUnit.MINUTES, TimeUnit.MINUTES);
         Assert.assertThat(timer, CoreMatchers.instanceOf(Timer.class));
+    }
+
+    @Test
+    public void multipleTimer() {
+        final MetricsRegistry metricRegistry = new MetricsRegistry();
+        final com.yammer.metrics.core.Timer timer = metricRegistry.newTimer(name("foo"), TimeUnit.MINUTES, TimeUnit.MINUTES);
+        Assert.assertThat(timer, CoreMatchers.instanceOf(Timer.class));
+        final com.yammer.metrics.core.Timer timer2 = metricRegistry.newTimer(name("foo"), TimeUnit.MINUTES, TimeUnit.MINUTES);
+        Assert.assertThat(timer2, CoreMatchers.instanceOf(Timer.class));
     }
 
     @Test
@@ -74,10 +92,28 @@ public class MetricRegistryTest {
     }
 
     @Test
+    public void multipleMeter() {
+        final MetricsRegistry metricRegistry = new MetricsRegistry();
+        final com.yammer.metrics.core.Meter meter = metricRegistry.newMeter(name("foo"), "somethings", TimeUnit.MINUTES);
+        Assert.assertThat(meter, CoreMatchers.instanceOf(Meter.class));
+        final com.yammer.metrics.core.Meter meter2 = metricRegistry.newMeter(name("foo"), "somethings", TimeUnit.MINUTES);
+        Assert.assertThat(meter2, CoreMatchers.instanceOf(Meter.class));
+    }
+
+    @Test
     public void histogram() {
         final MetricsRegistry metricRegistry = new MetricsRegistry();
         final com.yammer.metrics.core.Histogram histogram = metricRegistry.newHistogram(name("foo"), false);
         Assert.assertThat(histogram, CoreMatchers.instanceOf(Histogram.class));
+    }
+
+    @Test
+    public void multipleHistogram() {
+        final MetricsRegistry metricRegistry = new MetricsRegistry();
+        final com.yammer.metrics.core.Histogram histogram = metricRegistry.newHistogram(name("foo"), false);
+        Assert.assertThat(histogram, CoreMatchers.instanceOf(Histogram.class));
+        final com.yammer.metrics.core.Histogram histogram2 = metricRegistry.newHistogram(name("foo"), false);
+        Assert.assertThat(histogram2, CoreMatchers.instanceOf(Histogram.class));
     }
 
     @Test
