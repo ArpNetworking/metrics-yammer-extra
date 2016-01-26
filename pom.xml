@@ -28,7 +28,7 @@
   <packaging>pom</packaging>
   <name>Metrics Client Yammer Extras</name>
   <description>Extension to metrics-java-client which adapts the client for use in conjunction or in place of the Yammer metrics library.</description>
-  <version>0.4.2-SNAPSHOT</version>
+  <version>0.4.2</version>
 
   <licenses>
     <license>
@@ -66,7 +66,7 @@
     <connection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</connection>
     <developerConnection>scm:git:git@github.com:ArpNetworking/metrics-yammer-extra.git</developerConnection>
     <url>https://github.com/arpnetworking/metrics-yammer-extra</url>
-    <tag>HEAD</tag>
+    <tag>yammer-extra-parent-0.4.2</tag>
   </scm>
 
   <modules>
