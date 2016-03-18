@@ -95,7 +95,7 @@
     -->
 
     <!--Dependency versions-->
-    <findbugs.annotations.version>3.0.0</findbugs.annotations.version>
+    <findbugs.annotations.version>3.0.1</findbugs.annotations.version>
     <hamcrest.version>2.0.0.0</hamcrest.version>
     <junit.version>4.12</junit.version>
     <metrics.client.version>0.4.2</metrics.client.version>
@@ -149,7 +149,7 @@
       </dependency>
       <dependency>
         <groupId>com.google.code.findbugs</groupId>
-        <artifactId>annotations</artifactId>
+        <artifactId>findbugs-annotations</artifactId>
         <version>${findbugs.annotations.version}</version>
       </dependency>
       <!-- Test - General -->
