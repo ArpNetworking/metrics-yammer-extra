@@ -16,6 +16,7 @@
 package com.arpnetworking.metrics.yammer;
 
 import com.arpnetworking.metrics.Metrics;
+import com.arpnetworking.metrics.Units;
 import com.yammer.metrics.core.Clock;
 import com.yammer.metrics.core.TimerIntercept;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -53,12 +54,9 @@ public class Timer extends TimerIntercept {
         _clock = clock;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void update(final long duration, final TimeUnit unit) {
-        _lock.readLocked(metrics -> metrics.setTimer(_name, duration, unit));
+        _lock.readLocked(metrics -> metrics.setTimer(_name, duration, Units.from(unit)));
         super.update(duration, unit);
     }
 

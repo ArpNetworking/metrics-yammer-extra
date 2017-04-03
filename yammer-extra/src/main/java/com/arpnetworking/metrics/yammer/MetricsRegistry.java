@@ -17,7 +17,7 @@ package com.arpnetworking.metrics.yammer;
 
 import com.arpnetworking.metrics.Metrics;
 import com.arpnetworking.metrics.MetricsFactory;
-import com.arpnetworking.metrics.impl.TsdLogSink;
+import com.arpnetworking.metrics.impl.FileSink;
 import com.arpnetworking.metrics.impl.TsdMetricsFactory;
 import com.yammer.metrics.core.Clock;
 import com.yammer.metrics.core.Gauge;
@@ -59,7 +59,7 @@ public class MetricsRegistry extends com.yammer.metrics.core.MetricsRegistry {
                         .setClusterName(System.getProperty("METRICS_YAMMER_EXTRA_CLUSTER", "YammerCluster"))
                         .setServiceName(System.getProperty("METRICS_YAMMER_EXTRA_SERVICE", "YammerService"))
                         .setSinks(Collections.singletonList(
-                                new TsdLogSink.Builder()
+                                new FileSink.Builder()
                                         .setDirectory(
                                                 new File(System.getProperty("METRICS_YAMMER_EXTRA_DIRECTORY", "/tmp")))
                                         .build()))
@@ -99,14 +99,11 @@ public class MetricsRegistry extends com.yammer.metrics.core.MetricsRegistry {
         // TODO(barp): Read the settings from a config file [#2]
         this(
                 new TsdMetricsFactory.Builder()
-                        .setSinks(Collections.singletonList(new TsdLogSink.Builder().build()))
+                        .setSinks(Collections.singletonList(new FileSink.Builder().build()))
                         .build(),
                 clock);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Counter newCounter(final MetricName metricName) {
         final Counter counter = getOrCreate(metricName.getName(), _counterBuilder);
@@ -114,9 +111,6 @@ public class MetricsRegistry extends com.yammer.metrics.core.MetricsRegistry {
         return counter;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Histogram newHistogram(final MetricName metricName, final boolean biased) {
         final Histogram histogram = getOrCreate(metricName.getName(), (n) -> new Histogram(n, _lock, biased));
@@ -124,9 +118,6 @@ public class MetricsRegistry extends com.yammer.metrics.core.MetricsRegistry {
         return histogram;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Timer newTimer(
             final MetricName metricName,
@@ -138,9 +129,6 @@ public class MetricsRegistry extends com.yammer.metrics.core.MetricsRegistry {
 
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Meter newMeter(final MetricName metricName, final String eventType, final TimeUnit unit) {
         final Meter meter = getOrCreate(metricName.getName(), (n) -> new Meter(n, _lock, tickPool(), eventType, unit, _clock));
@@ -148,9 +136,6 @@ public class MetricsRegistry extends com.yammer.metrics.core.MetricsRegistry {
         return meter;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public <T> Gauge<T> newGauge(final MetricName metricName, final Gauge<T> metric) {
         _gauges.put(metricName.getName(), metric);
@@ -228,9 +213,6 @@ public class MetricsRegistry extends com.yammer.metrics.core.MetricsRegistry {
             _registry = registry;
         }
 
-        /**
-         * {@inheritDoc}
-         */
         @Override
         public void run() {
             final Metrics metrics = _metricsRef.get();

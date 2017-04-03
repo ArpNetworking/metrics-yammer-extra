@@ -47,25 +47,16 @@ public final class TestQuantity implements Quantity {
         return new TestQuantity(value, unit);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Number getValue() {
         return _value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Unit getUnit() {
         return _unit;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return String.format(

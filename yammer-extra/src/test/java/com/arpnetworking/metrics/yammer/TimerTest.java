@@ -16,6 +16,8 @@
 package com.arpnetworking.metrics.yammer;
 
 import com.arpnetworking.metrics.Metrics;
+import com.arpnetworking.metrics.Unit;
+import com.arpnetworking.metrics.Units;
 import com.yammer.metrics.core.Clock;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +42,7 @@ public class TimerTest {
         MockitoAnnotations.initMocks(this);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void setTimer() {
         final Timer timer = new Timer(
@@ -53,9 +56,10 @@ public class TimerTest {
         Mockito.verifyZeroInteractions(_metrics);
         Mockito.verify(_lock).readLocked(_delegateCaptor.capture());
         _delegateCaptor.getValue().accept(_metrics);
-        Mockito.verify(_metrics).setTimer("foo", 18, TimeUnit.MILLISECONDS);
+        Mockito.verify(_metrics).setTimer("foo", 18, Units.MILLISECOND);
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void time() {
         final Timer timer = new Timer(
@@ -69,7 +73,7 @@ public class TimerTest {
         Mockito.verifyZeroInteractions(_metrics);
         Mockito.verify(_lock).readLocked(_delegateCaptor.capture());
         _delegateCaptor.getValue().accept(_metrics);
-        Mockito.verify(_metrics).setTimer(Mockito.eq("foo"), Mockito.anyLong(), Mockito.any(TimeUnit.class));
+        Mockito.verify(_metrics).setTimer(Mockito.eq("foo"), Mockito.anyLong(), Mockito.any(Unit.class));
     }
 
     @Mock
