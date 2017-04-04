@@ -52,9 +52,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class YammerMetricsSink implements Sink {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void record(final Event event) {
         // Publish timers

@@ -30,41 +30,26 @@ import java.util.Objects;
  */
 public final class TsdEvent implements Event {
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, String> getAnnotations() {
         return Collections.unmodifiableMap(_annotations);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, List<Quantity>> getTimerSamples() {
         return Collections.unmodifiableMap(_timerSamples);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, List<Quantity>> getCounterSamples() {
         return Collections.unmodifiableMap(_counterSamples);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public Map<String, List<Quantity>> getGaugeSamples() {
         return Collections.unmodifiableMap(_gaugeSamples);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean equals(final Object other) {
         if (this == other) {
@@ -80,9 +65,6 @@ public final class TsdEvent implements Event {
                 && Objects.equals(_gaugeSamples, otherEvent._gaugeSamples);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public int hashCode() {
         int hash = 17;
@@ -93,9 +75,6 @@ public final class TsdEvent implements Event {
         return hash;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return String.format(

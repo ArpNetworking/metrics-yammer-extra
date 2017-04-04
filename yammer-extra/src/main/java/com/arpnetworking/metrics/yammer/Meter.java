@@ -52,9 +52,6 @@ public class Meter extends MeterIntercept {
         _lock = lock;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public void mark(final long n) {
         super.mark(n);
